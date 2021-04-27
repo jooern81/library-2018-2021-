@@ -1,0 +1,150 @@
+Sub WorksheetLoop()
+
+    Dim WS_Count As Integer
+    Dim I As Integer
+
+         ' Set WS_Count equal to the number of worksheets in the active
+         ' workbook.
+    WS_Count = ActiveWorkbook.Worksheets.Count
+
+         ' Begin the loop.
+    For I = 1 To WS_Count
+
+            ' Insert your code here.
+            ' The following line shows how to reference a sheet within
+            ' the loop by displaying the worksheet name in a dialog box.
+    ActiveWorkbook.Worksheets(I).Range("A:C").EntireColumn.Delete
+
+
+Next I
+End Sub
+
+
+=Excel.CurrentWorkbook()
+
+import pandas as pd
+df = pd.read_excel('tmp.xlsx', sheetname=None, ignore_index=True)
+cdf = pd.concat(df.values())
+
+print(cdf)
+
+
+
+Sub OpenAll()
+
+'  This macro opens all files in the working (default) directory,
+'  one at a time, then loops through all worksheets in the workbook
+'  deleting the first four rows, and then closes each file.
+
+   Dim Filename      As String
+   Dim GoAhead       As Variant
+   Dim WS            As Worksheet
+   
+   'Look for all files ending with .xls
+   'Can include entire path if desired. This example assumes working
+   'directory so no path specified.
+   Filename = Dir("*.xls*")
+   
+   GoAhead = MsgBox("This macro will delete the first 4 rows of every workbook" & vbLf & _
+                    "in " & Application.DefaultFilePath & ", starting with: " & vbLf & _
+                    Filename & ". Are you sure?", vbYesNo, "Important Warning")
+   If GoAhead = vbNo Then Exit Sub
+   
+   Application.DisplayAlerts = False
+   
+   Do While Filename <> ""
+   
+      Workbooks.Open Filename
+      Application.StatusBar = Filename & " opened."
+      
+      For Each WS In Worksheets
+         WS.Rows("1:34").Delete
+      Next WS
+      
+      ActiveWorkbook.Close True
+      Application.StatusBar = Filename & " closed."
+      
+      'read next filename
+      Filename = Dir()
+   Loop
+   
+   Application.DisplayAlerts = False
+   Application.StatusBar = False
+
+End Sub
+
+
+Sub OpenAll()
+
+'  This macro opens all files in the working (default) directory,
+'  one at a time, then loops through all worksheets in the workbook
+'  deleting the first four rows, and then closes each file.
+
+   Dim Filename      As String
+   Dim GoAhead       As Variant
+   Dim WS            As Worksheet
+   
+   'Look for all files ending with .xls
+   'Can include entire path if desired. This example assumes working
+   'directory so no path specified.
+   Filename = Dir("C:\Users\chinjooern\Desktop\WORN RAIL\" & "*.xls*")
+   
+   GoAhead = MsgBox("This macro will delete the first 4 rows of every workbook" & vbLf & _
+                    "in " & Application.DefaultFilePath & ", starting with: " & vbLf & _
+                    Filename & ". Are you sure?", vbYesNo, "Important Warning")
+   If GoAhead = vbNo Then Exit Sub
+   
+   Application.DisplayAlerts = False
+   
+   Do While Filename <> ""
+   
+      Workbooks.Open Filename
+      Application.StatusBar = Filename & " opened."
+      
+      For Each WS In Worksheets
+         WS.Rows("1:34").Delete
+      Next WS
+      
+      ActiveWorkbook.Close True
+      Application.StatusBar = Filename & " closed."
+      
+      'read next filename
+      Filename = Dir()
+   Loop
+   
+   Application.DisplayAlerts = False
+   Application.StatusBar = False
+
+End Sub
+
+Sub ChangeFiles2()
+    Dim MyPath As String
+    Dim MyFile As String
+    Dim dirName As String
+    Dim wks As Worksheet
+
+    ' Change directory path as desired
+    dirName = "c:\myfiles\"
+
+    MyPath = dirName & "*.xlsx"
+    MyFile = Dir(MyPath)
+    If MyFile > "" Then MyFile = dirName & MyFile
+
+    Do While MyFile <> ""
+        If Len(MyFile) = 0 Then Exit Do 
+
+        Workbooks.Open MyFile
+
+        With ActiveWorkbook
+            For Each wks In .Worksheets
+                ' Specify the change to make
+                wks.Range("A1").Value = "A1 Changed"
+            Next
+        End With
+
+        ActiveWorkbook.Close SaveChanges:=True
+
+        MyFile = Dir
+        If MyFile > "" Then MyFile = dirName & MyFile
+    Loop
+End Sub 

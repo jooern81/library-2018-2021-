@@ -1,0 +1,26 @@
+Sub Macro1()
+Const TEST_COLUMN As String = "B" '<=== change the hunting row
+Dim LastRow As Long
+Dim cell As Range
+Dim CI
+sSheetName = ActiveSheet.Name
+
+With Worksheets(sSheetName)
+LastRow = .Cells(.Rows.Count, "A").End(xlUp).Row
+MsgBox (LastRow)
+
+CI = RGB(Int(50 + 200 * Rnd), Int(50 + 200 * Rnd), Int(50 + 200 * Rnd))
+For SectorRow = 2 To LastRow
+    If ActiveWorkbook.Sheets(1).Cells(SectorRow, 2) = ActiveWorkbook.Sheets(1).Cells(SectorRow - 1, 2) Then
+        ActiveWorkbook.Sheets(1).Rows(SectorRow).EntireRow.Interior.Color = CI
+        ActiveWorkbook.Sheets(1).Rows(SectorRow - 1).EntireRow.Interior.Color = CI
+    Else
+        CI = RGB(Int(50 + 200 * Rnd), Int(50 + 200 * Rnd), Int(50 + 200 * Rnd))
+    End If
+Next
+
+Columns("G:XFD").Hidden = True '<=== hide some columns
+
+End With
+
+End Sub

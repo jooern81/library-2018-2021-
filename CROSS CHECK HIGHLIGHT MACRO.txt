@@ -1,0 +1,24 @@
+
+Dim LastFilledRow As Long
+Dim LastFilledCol As Long
+Dim RowCounter As Integer
+Dim RowCoords() As Variant
+Dim ColumnCoords() As Variant
+
+
+
+
+
+LastFilledRow1 = ActiveWorkbook.Sheets(1).UsedRange.Rows.Count
+LastFilledCol1 = ActiveWorkbook.Sheets(1).UsedRange.Columns.Count
+LastFilledRow2 = ActiveWorkbook.Sheets(2).UsedRange.Rows.Count
+LastFilledCol2 = ActiveWorkbook.Sheets(2).UsedRange.Columns.Count
+
+For i = 1 To LastFilledRow1
+    For j = 1 To LastFilledRow2
+        If ActiveWorkbook.Sheets(1).Cells(i, 1).Value = ActiveWorkbook.Sheets(2).Cells(j, 2).Value Then
+            ActiveWorkbook.Sheets(1).Rows(i).Interior.ColorIndex = 4
+            ActiveWorkbook.Sheets(2).Rows(j).Interior.ColorIndex = 4
+        End If
+    Next j
+Next i
